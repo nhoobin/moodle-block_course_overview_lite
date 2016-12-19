@@ -75,7 +75,7 @@ class block_course_overview_lite extends block_base {
         $this->content->text = '';
         $this->content->footer = '';
 
-        $updatemynumber = optional_param('mynumber', -1, PARAM_INT);
+        $updatemynumber = optional_param('mynumberlite', -1, PARAM_INT);
         if ($updatemynumber >= 0) {
             block_course_overview_lite_update_mynumber($updatemynumber);
         }
@@ -94,7 +94,8 @@ class block_course_overview_lite extends block_base {
 
         // Load up the course detailed view info.
         $overviews = array();
-        if (!ajaxenabled() && !$ajax) {
+
+        if (!$ajax) {
             global $USER;
             $unsorted = enrol_get_my_courses();
             foreach ($unsorted as $cid => $course) {
@@ -113,7 +114,7 @@ class block_course_overview_lite extends block_base {
             $this->content->text .= $renderer->course_overview($sortedcourses, $overviews, $ajax);
             $this->content->text .= $renderer->hidden_courses($numhidden);
             $this->page->requires->js_init_call('M.block_course_overview_lite.init');
-            if ($this->page->user_is_editing() && ajaxenabled()) {
+            if ($this->page->user_is_editing()) {
                 $this->page->requires->js_init_call('M.block_course_overview_lite.add_handles');
             }
         }
@@ -135,6 +136,6 @@ class block_course_overview_lite extends block_base {
      * @return array
      */
     public function applicable_formats() {
-        return array('my-index' => true);
+        return array('my' => true);
     }
 }

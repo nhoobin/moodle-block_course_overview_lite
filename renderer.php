@@ -66,22 +66,14 @@ class block_course_overview_lite_renderer extends plugin_renderer_base {
             ), array('id' => 'ajaxcourse', 'class' => $editclass));
         } else {
             if ($this->page->user_is_editing()) {
-                if (ajaxenabled()) {
-                    $moveicon = html_writer::tag('div',
-                        html_writer::empty_tag('img',
-                            array('src' => $this->pix_url('i/move_2d')->out(false),
-                                'alt' => get_string('move'), 'class' => 'cursor',
-                                'title' => get_string('move'))
-                        ), array('class' => 'move')
-                    );
-                } else {
-                    $url = new moodle_url('/blocks/course_overview_lite/move.php', array('sesskey' => sesskey()));
-                    $hideurl = new moodle_url('/blocks/course_overview_lite/hide.php', array('sesskey' => sesskey()));
-                    $moveup['str'] = get_string('moveup');
-                    $moveup['icon'] = $this->pix_url('t/up');
-                    $movedown['str'] = get_string('movedown');
-                    $movedown['icon'] = $this->pix_url('t/down');
-                }
+                $moveicon = html_writer::tag('div',
+                    html_writer::empty_tag('img',
+                        array('src' => $this->pix_url('i/move_2d')->out(false),
+                            'alt' => get_string('move'), 'class' => 'cursor',
+                            'title' => get_string('move'))
+                    ), array('class' => 'move')
+                );
+
                 $hideicon = html_writer::empty_tag('img',
                     array('src' => $this->pix_url('i/hide')->out(false),
                         'alt' => get_string('hide_icon_alt',
@@ -227,7 +219,7 @@ class block_course_overview_lite_renderer extends plugin_renderer_base {
             $options[$i] = $i;
         }
         $url = new moodle_url('/my/index.php');
-        $select = new single_select($url, 'mynumber', $options, block_course_overview_lite_get_max_user_courses(), array());
+        $select = new single_select($url, 'mynumberlite', $options, block_course_overview_lite_get_max_user_courses(), array());
         $select->set_label(get_string('numtodisplay', 'block_course_overview_lite'));
         $output .= $this->output->render($select);
 

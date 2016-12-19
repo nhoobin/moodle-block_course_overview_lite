@@ -125,8 +125,10 @@ function block_course_overview_lite_get_sorted_courses($usenav = true) {
         }
     }
 
+    $cc = count(enrol_get_my_courses());
+
     if (empty($courses)) {
-        if (ajaxenabled() && $usenav) {
+        if ($usenav) {
             $ajax = true;
             $PAGE->requires->string_for_js('move', 'moodle');
             $PAGE->requires->string_for_js('hide_icon_alt', 'block_course_overview_lite');
@@ -151,7 +153,7 @@ function block_course_overview_lite_get_sorted_courses($usenav = true) {
         $hiddencourses = block_course_overview_lite_remove_old_courses_from_hidden_list($hiddencourses, array_keys($courses));
         $courses = block_course_overview_lite_sort_courses($courses);
     }
-    return array($courses, count($courses),  array_sum($hiddencourses), $ajax);
+    return array($courses, $cc,  array_sum($hiddencourses), $ajax);
 }
 
 function block_course_overview_lite_sort_courses($courses) {
